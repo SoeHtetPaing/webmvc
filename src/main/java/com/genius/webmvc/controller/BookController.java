@@ -2,24 +2,28 @@ package com.genius.webmvc.controller;
 
 import com.genius.webmvc.model.Book;
 import com.genius.webmvc.service.BookService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("")
+@RequestMapping("/")
 public class BookController {
     @Autowired
     BookService bookService;
 
     @GetMapping
-    String main() {
+    String main(Model model, @SessionAttribute String loginStatus) {
+        model.addAttribute("message", loginStatus);
         return "index";
     }
 
@@ -43,6 +47,18 @@ public class BookController {
         }
 
 
+        return "index";
+    }
+
+    @GetMapping("book/session")
+    String setSession(HttpSession session) {
+        session.setAttribute("message", "Hello Session");
+        return "index";
+    }
+
+    @GetMapping("book/session/read")
+    String getSession(@SessionAttribute String message, Model model) {
+        model.addAttribute("message", message);
         return "index";
     }
 }

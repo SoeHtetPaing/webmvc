@@ -2,6 +2,7 @@ package com.genius.webmvc.dao.impl;
 
 import com.genius.webmvc.dao.BookDao;
 import com.genius.webmvc.model.Book;
+import com.genius.webmvc.util.CommonHandler;
 import com.genius.webmvc.util.DateTimeHandler;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,8 @@ public class BookDaoImpl implements BookDao {
 
     public BookDaoImpl() {
         bookList = new ArrayList<Book>();
-        bookList.add(new Book(DateTimeHandler.getSyskey(), 1, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Java", "Java Author", "", ""));
-        bookList.add(new Book(DateTimeHandler.getSyskey(), 2, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Spring", "Spring Author", "", ""));
+        bookList.add(new Book(CommonHandler.getSyskey(), 1, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Java", "Java Author", "", ""));
+        bookList.add(new Book(CommonHandler.getSyskey(), 2, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Spring", "Spring Author", "", ""));
     }
 
     @Override
