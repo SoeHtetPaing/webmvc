@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,48 +19,63 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    // test for give default data to view
     @ModelAttribute
     void setDefaultModel(Model model) {
         model.addAttribute("message", "");
     }
 
+    // test for pass session data from login
+    // test for see passed session id
     @GetMapping
-    String main(Model model, @ModelAttribute("message") String modelMsg,
-                @SessionAttribute("loginStatus") String sessionMsg, @CookieValue("JSESSIONID") String sessionID) {
+    String main(Model model, @SessionAttribute("loginStatus") String sessionMsg, @CookieValue("JSESSIONID") String sessionID) {
         log.info("Session ID: " + sessionID);
-        model.addAttribute("message", "".equals(sessionMsg) ? modelMsg : sessionMsg);
+        model.addAttribute("message", sessionMsg);
         return "index";
     }
 
+    // test for R from CRUD
     @GetMapping("/book")
-    String getAllBook() {
+    String getAllBook(Model model) {
         List<Book> bookList = bookService.getAllBook();
         for (Book book : bookList) {
             log.info(book.toString());
         }
-        return "index";
+        model.addAttribute("bookList", bookList);
+
+        return "book/home";
     }
 
-    @GetMapping("book/{syskey}")
-    String getBookBySyskey(@PathVariable long syskey) {
-        Book book = bookService.getBookBySyskey(syskey);
+    // test for R from CRUD
+    @GetMapping("/book/search")
+    String getBookBySyskey(Model model, @RequestParam("syskey") String searchSyskey) {
+        List<Book> bookList = new ArrayList<>();
 
-        if (book != null) {
-            log.info(book.toString());
+        if ("".equals(searchSyskey)) {
+            bookList = bookService.getAllBook();
         } else {
-            log.warn("No Book!");
+            long syskey = Long.parseLong(searchSyskey);
+            Book book = bookService.getBookBySyskey(syskey);
+            if (book != null) {
+                bookList.add(book);
+                log.info(book.toString());
+            } else {
+                log.warn("No Book!");
+            }
         }
 
-
-        return "index";
+        model.addAttribute("bookList", bookList);
+        return "book/home";
     }
 
+    // test for set session
     @GetMapping("book/session")
     String setSession(HttpSession session) {
         session.setAttribute("message", "Hello Session");
         return "index";
     }
 
+    // test for read session
     @GetMapping("book/session/read")
     String getSession(@SessionAttribute String message, Model model) {
         model.addAttribute("message", message);

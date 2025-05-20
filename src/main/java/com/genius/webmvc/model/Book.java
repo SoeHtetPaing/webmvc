@@ -10,11 +10,9 @@ public class Book {
     long autokey;
     String createddate;
     String modifieddate;
-    String userid;
-    String username;
+    String createduser;
+    String modifieduser;
     int recordstatus;
     String t1;
     String t2;
-    String modifieduserid;
-    String modifiedusername;
 }

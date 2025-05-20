@@ -16,8 +16,8 @@ public class BookDaoImpl implements BookDao {
 
     public BookDaoImpl() {
         bookList = new ArrayList<Book>();
-        bookList.add(new Book(CommonHandler.getSyskey(), 1, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Java", "Java Author", "", ""));
-        bookList.add(new Book(CommonHandler.getSyskey(), 2, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "genius.iq", 1, "Spring", "Spring Author", "", ""));
+        bookList.add(new Book(CommonHandler.getSyskey(), 1, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "", 1, "Java", "Java Author"));
+        bookList.add(new Book(CommonHandler.getSyskey(), 2, DateTimeHandler.getCurrentTimestamp(), DateTimeHandler.getCurrentTimestamp(), "genius.iq", "", 1, "Spring", "Spring Author"));
     }
 
     @Override
