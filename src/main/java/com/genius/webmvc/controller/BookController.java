@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,9 +18,16 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    @ModelAttribute
+    void setDefaultModel(Model model) {
+        model.addAttribute("message", "");
+    }
+
     @GetMapping
-    String main(Model model, @SessionAttribute String loginStatus) {
-        model.addAttribute("message", loginStatus);
+    String main(Model model, @ModelAttribute("message") String modelMsg,
+                @SessionAttribute("loginStatus") String sessionMsg, @CookieValue("JSESSIONID") String sessionID) {
+        log.info("Session ID: " + sessionID);
+        model.addAttribute("message", "".equals(sessionMsg) ? modelMsg : sessionMsg);
         return "index";
     }
 
